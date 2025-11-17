@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>NutriPlan Pro - Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="./styles/base.css" />
+</head>
+<body>
+  <div id="app">
+    <section id="login">
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input name="email" placeholder="email" value="eve.holt@reqres.in" />
+        <input name="password" placeholder="password" value="password" type="password" />
+        <button type="submit">Entrar</button>
+      </form>
+      <div id="loginStatus"></div>
+    </section>
+
+    <section id="appMain" style="display:none;">
+      <div id="planner-layout-placeholder"></div>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/@reduxjs/toolkit@1.9.5/dist/redux-toolkit.umd.js"></script>
+
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.js"></script>
+
+  <script type="module">
+    import './main.js';
+
+    const form = document.getElementById('loginForm');
+    const status = document.getElementById('loginStatus');
+    const appMain = document.getElementById('appMain');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const fd = new FormData(form);
+      const email = fd.get('email');
+      const password = fd.get('password');
+
+      status.textContent = 'Iniciando...';
+
+      // 🚀 1. Ejecutamos loginUser
+      const action = await window.store.dispatch(
+        window.loginUser({ email, password })
+      );
+
+      // 🚦 2. Verificamos si fue éxito o error
+      if (action.type.endsWith('/fulfilled')) {
+        const user = window.store.getState().auth.user;
+        status.textContent = `Bienvenido ${user.email}`;
+        document.getElementById('login').style.display = 'none';
+        appMain.style.display = 'block';
+        initPlannerUI();
+      } 
+      else {
+        status.textContent = 'Login fallido: credenciales incorrectas';
+      }
+    });
+    </script>
+</body>
+</html>
