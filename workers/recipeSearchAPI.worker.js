@@ -40,11 +40,37 @@ const MOCK_RECIPES = [
 // Worker
 // =============================================================
 
-self.onmessage = (e) => {
-    const { id, type, query } = e.data;
+self.addEventListener("message", async (ev) => {
+  const { id, type, query } = ev.data;
+  if (type !== "SEARCH") return;
 
-    if (type === "SEARCH") {
-        const filtered = MOCK_RECIPES.filter(r =>
+  const q = (query || "").trim().toLowerCase();
+
+  // Progreso opcional
+  postMessage({ id, type: "PROGRESS", payload: { status: "fetching" } });
+
+  let results = null;
+
+  try {
+    // Intento de búsqueda real (fallará normalmente)
+    const res = await fetch(`${API_BASE}/recipes/search?q=${encodeURIComponent(q)}`);
+
+    if (res.ok) {
+      const json = await res.json();
+      results = json.recipes || json.items || json.data || [];
+    } else {
+      // HTTP error → fallback después
+      results = null;
+    }
+
+  } catch (err) {
+    // Error de red → fallback
+    results = null;
+  }
+
+  // Fallback automático
+  if (!results || results.length === 0 || results === null || type === "SEARCH") {
+    const filtered = MOCK_RECIPES.filter(r =>
             r.title.toLowerCase().includes(query.toLowerCase())
         );
 
@@ -53,5 +79,11 @@ self.onmessage = (e) => {
             type: "SEARCH_RESULT",
             payload: filtered
         });
-    }
-};
+  }
+
+  postMessage({
+    id,
+    type: "SEARCH_RESULT",
+    payload: results
+  });
+});

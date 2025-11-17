@@ -4,12 +4,12 @@ import { strategies, defaultStrategy } from "../patterns/strategy/index.js";
 //  Helpers internos
 // ------------------------------
 const NUTRI_DB = {
-    'tomate': { calories: 22, protein: 1.1, fat: 0.2 },
-    'pan': { calories: 265, protein: 9, fat: 3.2 },
-    'pollo': { calories: 239, protein: 27, fat: 14 },
-    'sal': { calories: 0, protein: 0, fat: 0 },
-    'huevos': { calories: 155, protein: 13, fat: 11 },
-    'harina': { calories: 364, protein: 10, fat: 1 },
+    'tomate': { calories: 22, protein: 1.1, fat: 0.2, carbs: 3.9 },
+    'pan': { calories: 265, protein: 9, fat: 3.2, carbs: 49 },
+    'pollo': { calories: 239, protein: 27, fat: 14, carbs: 0 },
+    'sal': { calories: 0, protein: 0, fat: 0, carbs: 0 },
+    'huevos': { calories: 155, protein: 13, fat: 11, carbs: 1.1 },
+    'harina': { calories: 364, protein: 10, fat: 1, carbs: 76 },
 };
 
 function normalizeName(n) {
@@ -30,15 +30,16 @@ function nutritionForIngredient(ing) {
         return {
             calories: base.calories * qty,
             protein: base.protein * qty,
-            fat: base.fat * qty
+            fat: base.fat * qty,
+            carbs: base.carbs * qty
         };
     }
 
-    // fallback genérico
     return {
         calories: 50 * qty,
         protein: 1 * qty,
-        fat: 0.5 * qty
+        fat: 0.5 * qty,
+        carbs: 5 * qty
     };
 }
 

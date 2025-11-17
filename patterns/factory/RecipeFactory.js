@@ -8,10 +8,15 @@ const RecipeFactory = {
             image: raw.image || raw.thumbnail || null,
             ingredients: (raw.ingredients || []).map(i => ({
                 name: i.name || i.ingredient || i,
-                quantity: i.quantity || i.amount || 1,
+                quantity: Number(i.quantity || i.amount || 1) || 1,
                 unit: i.unit || ""
             })),
-            instructions: raw.instructions || raw.steps || []
+            instructions:
+            Array.isArray(raw.instructions)
+                ? raw.instructions
+                : raw.steps
+                ? (Array.isArray(raw.steps) ? raw.steps : [raw.steps])
+                : []
         };
     }
 };
