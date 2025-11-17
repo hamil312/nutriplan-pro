@@ -34,10 +34,6 @@ export function initPlannerUI() {
         appMain.innerHTML = `
             <div id="${layoutId}" class="planner-container">
                 <aside class="recipes-panel">
-                    <div class="recipes-header">
-                        <input id="recipeSearchInput" placeholder="Buscar recetas..." />
-                        <button id="recipeSearchBtn">Buscar</button>
-                    </div>
                     <div id="recipesList" class="recipes-list"></div>
                 </aside>
 
@@ -84,8 +80,6 @@ export function initPlannerUI() {
     const recipesListEl = document.getElementById("recipesList");
     const plannerGridEl = document.getElementById("plannerGrid");
     const plannerGridHeader = document.getElementById("plannerGridHeader");
-    const searchInput = document.getElementById("recipeSearchInput");
-    const searchBtn = document.getElementById("recipeSearchBtn");
     const shoppingPreview = document.getElementById("shoppingPreview");
 
     // Render header days
@@ -257,13 +251,6 @@ export function initPlannerUI() {
             console.warn("searchRecipes no disponible en window; intente ejecutar desde main.js");
         }
     }
-
-    searchBtn.addEventListener("click", () => {
-        doSearch(searchInput.value.trim());
-    });
-    searchInput.addEventListener("keyup", (ev) => {
-        if (ev.key === "Enter") doSearch(searchInput.value.trim());
-    });
 
     // Subscriptions: re-render when recipes or planner change
     function renderFromState() {
