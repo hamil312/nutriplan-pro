@@ -1,7 +1,10 @@
+//This is the UI logic for the search system
 import store from "../store/index.js";
 
+//Function to initialize the Search UI
 export function initSearchUI(rootElement) {
 
+    //The starting state of the innerHTML element for the search UI
     rootElement.innerHTML = `
         <div class="recipes-panel">
             <div class="recipes-header">
@@ -12,51 +15,29 @@ export function initSearchUI(rootElement) {
         </div>
     `;
 
+    //We select items by their identificator and assign them to a variable
     const input = rootElement.querySelector("#searchInput");
     const button = rootElement.querySelector("#searchBtn");
-    const resultsContainer = rootElement.querySelector("#recipesResults");
 
+    //The function to handle the search process
     const triggerSearch = () => {
+        //Query takes the value from the input element in the DOM, removing whitespaces through trim
         const query = input.value.trim();
         if (!query) return;
 
-        resultsContainer.innerHTML = `<p>Buscando...</p>`;
+        //Triggers the main.js function for searching recipes through the window object
         window.searchRecipes(query);
     };
 
+    //Detect when the button is clicked and triggers the function to search
     button.addEventListener("click", triggerSearch);
+    //It alternatively detects when a certain key is pressed
     input.addEventListener("keydown", (e) => {
         if (e.key === "Enter") triggerSearch();
     });
 
-    // Reactivo al Redux store
+    //Updating through the redux store by getting the recipes from the store state and saving them on a variable
     store.subscribe(() => {
         const { searchResults } = store.getState().recipes;
-        resultsContainer.innerHTML = renderRecipeList(searchResults);
     });
-}
-
-function renderRecipeList(recipes) {
-    if (!recipes || recipes.length === 0) {
-        return `<p>No hay resultados.</p>`;
-    }
-
-    return recipes.map(recipe => `
-        <div class="recipe-card recipe-pool-item"
-             draggable="true"
-             data-id="${recipe.id}">
-             
-            <div class="recipe-thumb">
-                ${
-                    recipe.image
-                        ? `<img src="${recipe.image}" alt="${recipe.title}" />`
-                        : `<div class="no-thumb">🍽️</div>`
-                }
-            </div>
-
-            <div class="recipe-info">
-                <strong>${recipe.title}</strong>
-            </div>
-        </div>
-    `).join("");
 }

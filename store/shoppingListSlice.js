@@ -20,9 +20,13 @@ const shoppingListSlice = createSlice({
             //Toggles the 'bought' status of a specific item by its name
             const name = action.payload;
             if(state.items[name]) state.items[name].bought = !state.items[name].bought;
+        },
+        setFullList(state, action) {
+            //Replaces the entire shopping list with the provided items
+            state.items = action.payload || {};
         }
     }
 });
 
-export const { setShoppingItems, setGenerating, toggleItemBought } = shoppingListSlice.actions;
+export const { setShoppingItems, setGenerating, toggleItemBought, setFullList } = shoppingListSlice.actions;
 export default shoppingListSlice.reducer;

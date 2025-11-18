@@ -18,9 +18,12 @@ const recipesSlice = createSlice({
         setSearchResults(state, action){
             //The payload is expected to be an array of recipe objects
             state.searchResults = action.payload;
+        },
+        restoreCache(state, action) {
+            state.cache = action.payload || {};
         }
     }
 });
 
-export const { addRecipesToCache, setSearchResults } = recipesSlice.actions;
+export const { addRecipesToCache, setSearchResults, restoreCache } = recipesSlice.actions;
 export default recipesSlice.reducer;

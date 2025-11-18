@@ -1,8 +1,12 @@
+//We use this to normalize the recipes
 const RecipeFactory = {
+    //Normalize function
     normalize(raw) {
+        //Check if there is a raw element
         if (!raw) return null;
 
         return {
+            //Return an object that verifies the normalization of the data
             id: String(raw.id),
             title: raw.title || raw.name || "Receta sin nombre",
             image: raw.image || raw.thumbnail || null,

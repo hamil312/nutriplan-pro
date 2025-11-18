@@ -15,6 +15,77 @@
   color: #ef4444;
 }
 
+#login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f1f5f9;
+}
+
+.login-card {
+  width: 320px;
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.login-card h2 {
+  margin-bottom: 18px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#loginForm input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  background: #f8fafc;
+}
+
+#loginForm input:focus {
+  border-color: #38bdf8;
+  outline: none;
+  box-shadow: 0 0 4px rgba(56,189,248,0.4);
+}
+
+#loginForm button {
+  margin-top: 4px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#loginForm button:hover {
+  background: #2563eb;
+}
+
+#loginStatus {
+  margin-top: 14px;
+  min-height: 18px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .planner-container {
   display: grid;
   grid-template-columns: 260px 1fr 300px;
